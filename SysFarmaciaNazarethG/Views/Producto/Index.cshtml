@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SysFarmaciaNazarethG.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nombre)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripción)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdCategoría)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioCosto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioVenta)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CódigoDeBarras)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CantidadEnInventario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeIngreso)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FechaDeCaducidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Estado)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Laboratorio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdProveedorNavigation)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nombre)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripción)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdCategoría)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioCosto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioVenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CódigoDeBarras)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CantidadEnInventario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeIngreso)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaDeCaducidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Estado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Laboratorio)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProveedorNavigation.IdProveedor)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

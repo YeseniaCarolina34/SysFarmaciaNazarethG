@@ -1,0 +1,84 @@
+﻿@model SysFarmaciaNazarethG.Models.Proveedor
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Proveedor</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Nombre)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dui)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dui)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonaDeContacto)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PersonaDeContacto)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Teléfono)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Teléfono)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CorreoElectrónico)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CorreoElectrónico)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Dirección)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Dirección)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.País)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.País)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MétodoDePago)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MétodoDePago)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BancoYnumeroDeCuenta)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BancoYnumeroDeCuenta)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MonedaDeTransacción)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MonedaDeTransacción)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdUsuarioNavigation)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.IdUsuarioNavigation.Id)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.IdProveedor">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

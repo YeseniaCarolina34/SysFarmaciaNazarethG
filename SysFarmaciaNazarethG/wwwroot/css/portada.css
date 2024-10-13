@@ -1,0 +1,32 @@
+﻿/* Para todo el menú de navegación */
+nav {
+    position: fixed; /* Fija el menú para que siempre esté visible */
+    top: 0;
+    left: 0;
+    width: 200px; /* Puedes ajustar este valor según necesites */
+    height: 100%; /* Ocupa todo el alto de la pantalla */
+    background-color: #007bff; /* Color de fondo del menú */
+    padding-top: 20px;
+}
+
+    /* Estilos para los links del menú */
+    nav a {
+        display: block;
+        color: white;
+        padding: 10px 15px;
+        text-align: left;
+        text-decoration: none;
+        font-size: 16px;
+    }
+
+        /* Cambiar color cuando el usuario pasa el cursor */
+        nav a:hover {
+            background-color: #0056b3; /* Cambia a un tono más oscuro */
+            color: white;
+        }
+
+/* Para ajustar el resto del contenido de la página */
+main {
+    margin-left: 220px; /* Mueve el contenido para que no quede debajo del menú */
+    padding: 20px;
+}
