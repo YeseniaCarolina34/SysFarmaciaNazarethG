@@ -1,0 +1,86 @@
+﻿/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e3f2fd; /* Fondo azul claro */
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    align-items: center; /* Centra verticalmente */
+    background-image: url('/img/lgin.webp'); /* Añadir la imagen de fondo */
+    background-size: cover; /* La imagen cubrirá todo el fondo */
+    background-position: center; /* Centra la imagen */
+    background-repeat: no-repeat; /* Evita que la imagen se repita */
+}
+/* Contenedor del formulario */
+.login-container {
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    max-width: 400px;
+    margin-left: 20px; /* Espaciado del borde izquierdo */
+    position: relative; /* Posición relativa */
+}
+/* Cuadro de login */
+.login-box {
+    background-color: rgba(255, 255, 255, 0.9); /* fondo del cuadrio del login */
+    border-radius: 10px;
+    box-shadow: none; /* Eliminamos sombras adicionales */
+    padding: 40px;
+    width: 350px;
+    text-align: center;
+}
+
+    /* Título */
+    .login-box h2 {
+        margin-bottom: 20px;
+        font-size: 24px;
+        color: #1e88e5;
+    }
+
+/* Estilos del formulario */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+        text-align: left;
+    }
+
+.form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+/* Estilos del botón */
+.btn-login {
+    width: 100%;
+    background-color: #1e88e5;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+    .btn-login:hover {
+        background-color: #1e88e5;
+    }
+
+/* Pie de página */
+footer {
+    margin-top: 20px;
+    font-size: 12px;
+    color: #1e88e5;
+}
+
+    footer p {
+        margin: 0;
+    }
+

@@ -18,6 +18,7 @@ namespace SysFarmaciaNazarethG.Controllers
             _context = context;
         }
 
+
         // GET: Usuario
         public async Task<IActionResult> Index()
         {
