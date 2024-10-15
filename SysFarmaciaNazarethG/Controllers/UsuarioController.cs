@@ -1,7 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +22,83 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             _context = context;
         }
+
+
+        // GET: Usuario/Login
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+
+        // POST: Usuario/Login
+        [HttpPost]
+        public IActionResult Login(string login, string password)
+        {
+            if (ModelState.IsValid)
+            {
+                // Encriptar la contraseña ingresada con MD5
+                string contraseñaEncriptada = EncriptarMD5(password);
+
+                // Verificar si el usuario existe (compara el Login y Password)
+                var usuario = _context.Usuario
+                                      .FirstOrDefault(u => u.Login == login && u.Password == contraseñaEncriptada);
+
+                if (usuario != null)
+                {
+                    // Autenticación exitosa, crear cookie de autenticación
+                    var claims = new List<Claim>
+                {
+                    new Claim(ClaimTypes.Name, usuario.Nombre),
+                    new Claim(ClaimTypes.Email, usuario.Login)
+                };
+
+                    var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var authProperties = new AuthenticationProperties
+                    {
+                        IsPersistent = true, // Para mantener la sesión iniciada si se cierra el navegador
+                    };
+
+                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                        new ClaimsPrincipal(claimsIdentity), authProperties);
+
+                    return RedirectToAction("Index", "Home"); // Redirigir al dashboard o página principal
+                }
+                else
+                {
+                    ViewBag.Error = "Credenciales incorrectas";
+                }
+            }
+
+            return View();
+        }
+
+        // Método para encriptar contraseñas con MD5
+        private string EncriptarMD5(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convertir el hash en una cadena hexadecimal
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+        // Cerrar sesión
+        public IActionResult Logout()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login");
+        }
+
+
 
 
         // GET: Usuario
