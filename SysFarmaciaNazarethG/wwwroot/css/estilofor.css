@@ -1,0 +1,33 @@
+﻿/* Estilo para el formulario de roles con el color Pantone 17-5912 TCX */
+form.rol-form {
+    background-color: #53665C; /* Aproximación del Pantone 17-5912 TCX */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+    /* Estilo para los campos de texto y selectores */
+    form.rol-form input[type="text"],
+    form.rol-form select {
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    /* Estilo para el botón de enviar */
+    form.rol-form input[type="submit"] {
+        background-color: #28a745; /* Un verde contrastante */
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+        form.rol-form input[type="submit"]:hover {
+            background-color: #218838; /* Oscurecimiento del botón al pasar el cursor */
+        }
