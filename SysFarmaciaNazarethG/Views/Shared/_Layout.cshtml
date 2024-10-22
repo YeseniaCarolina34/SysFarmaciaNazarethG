@@ -1,124 +1,70 @@
 ﻿<!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sistema de Gestión Integral</title>
-
-    <!-- Enlaces CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] Farmacia Nazareth</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/sidebar.css" />
+    <link rel="stylesheet" href="~/saladebelleza2.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <button class="btn btn-dark" id="sidebarToggle">
-            <i class="fas fa-bars"></i>
-        </button>
-        <a class="navbar-brand ml-2" href="Sistema de Inventario">Sistema de Inventario</a>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Perfil</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Cerrar Sesión</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Farmacia Nazareth</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <!-- Dropdown Ver Categorías -->
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Ver Categorías
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
+                                <li><a class="dropdown-item" href="Rol">Rol</a></li>
+                                <li><a class="dropdown-item" href="Usuario">Usuario</a></li>
+                                <li><a class="dropdown-item" href="Venta">Venta</a></li>
+                                <li><a class="dropdown-item" href="DetalleVenta">DetalleVenta</a></li>
+                                <li><a class="dropdown-item" href="Producto">Producto</a></li>
+                                <li><a class="dropdown-item" href="Home">Home</a></li>
+                            </ul>
+                        </li>
 
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav id="sidebar" class="col-md-3 col-lg-2 d-md-block bg-dark sidebar">
-                <div class="sidebar-sticky pt-3">
-                    <h5 class="text-center text-white">OPCIONES</h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <a class="nav-link active text-white" href="Home">
-                                <i class="fas fa-home"></i> Home
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Rol">
-                                <i class="fas fa-user-tag"></i> Rol
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Usuario">
-                                <i class="fas fa-user"></i> Usuarios
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Proveedor">
-                                <i class="fas fa-truck"></i> Proveedor
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Producto">
-                                <i class="fas fa-box"></i> Productos
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Inventario">
-                                <i class="fas fa-warehouse"></i> Inventarios
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Categoria">
-                                <i class="fas fa-tags"></i> Categorías
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Venta">
-                                <i class="fas fa-shopping-cart"></i> Ventas
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-white" href="Factura">
-                                <i class="fas fa-file-invoice"></i> Factura
-                            </a>
-                        </li>
                     </ul>
                 </div>
-            </nav>
+                <form class="d-flex" asp-action="Search" method="get">
+                    <input class="form-control me-2" type="search" name="query" placeholder="Buscar..." aria-label="Buscar">
+                    <button class="btn btn-outline-success" type="submit">Buscar</button>
+                </form>
+                <!-- Formulario para cerrar sesión -->
+                <form class="d-flex ms-2" action="Usuario/Login" method="get">
+                    <button class="btn btn-outline-danger" type="submit">Iniciar sesión</button>
+                </form>
+                <!-- Formulario para cerrar sesión -->
+                <form class="d-flex ms-2" action="@Url.Action("Logout", "Usuario")" method="post">
+                    <a class="btn btn-outline-danger ms-2" href="@Url.Action("Index", "Logout")">Cerrar sesión</a>
+                </form>
 
-            <!-- Contenido principal -->
-            <main class="content col-md-9 ml-sm-auto col-lg-10 px-md-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Bienvenidos!!!</h1>
-                </div>
-                <p>Este es el sistema de inventario de medicamentos. Para comenzar, selecciona una opción en el menú lateral.</p>
-                <button class="btn btn-primary">Nueva Entrada de Medicamento</button>
+            </div>
+        </nav>
+    </header>
 
-                @RenderBody()
-            </main>
-        </div>
+    @RenderBody()
+    @RenderSection("scripts", required: false)
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    <footer class="footer mt-auto py-3">
-        <div class="container text-center">
-            <span class="text-muted">Copyright © Sistema de Inventario 2024</span>
-        </div>
-    </footer>
-
-    <!-- Scripts -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script>
-        // Lógica para ocultar/mostrar el sidebar
-        document.getElementById('sidebarToggle').addEventListener('click', function () {
-            const sidebar = document.getElementById('sidebar');
-            const content = document.querySelector('.content');
-            sidebar.classList.toggle('hidden');
-            content.classList.toggle('full-width');
-        });
-    </script>
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
