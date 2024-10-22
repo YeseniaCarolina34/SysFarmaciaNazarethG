@@ -143,6 +143,7 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             if (ModelState.IsValid)
             {
+                usuario.Password = EncriptarMD5(usuario.Password);
                 _context.Add(usuario);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

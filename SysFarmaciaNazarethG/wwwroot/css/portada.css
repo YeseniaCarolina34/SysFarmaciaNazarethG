@@ -1,32 +1,44 @@
-﻿/* Para todo el menú de navegación */
-nav {
-    position: fixed; /* Fija el menú para que siempre esté visible */
-    top: 0;
-    left: 0;
-    width: 200px; /* Puedes ajustar este valor según necesites */
-    height: 100%; /* Ocupa todo el alto de la pantalla */
-    background-color: #007bff; /* Color de fondo del menú */
-    padding-top: 20px;
+﻿/* Estilo para el sidebar */
+#sidebar {
+    background-color: #00624D; /* Pantone 17-5912 TCX */
+    min-height: 100vh;
+    padding-top: 1rem;
 }
 
-    /* Estilos para los links del menú */
-    nav a {
-        display: block;
+    #sidebar .nav-link {
         color: white;
+        font-weight: 500;
         padding: 10px 15px;
-        text-align: left;
-        text-decoration: none;
-        font-size: 16px;
+        transition: background-color 0.3s;
     }
 
-        /* Cambiar color cuando el usuario pasa el cursor */
-        nav a:hover {
-            background-color: #0056b3; /* Cambia a un tono más oscuro */
+        #sidebar .nav-link.active,
+        #sidebar .nav-link:hover {
+            background-color: #00624D;
             color: white;
         }
 
-/* Para ajustar el resto del contenido de la página */
-main {
-    margin-left: 220px; /* Mueve el contenido para que no quede debajo del menú */
-    padding: 20px;
+/* Estilo para la barra de navegación superior */
+.navbar {
+    background-color: #00624D;
+}
+
+/* Estilo para el pie de página */
+footer {
+    background-color: #00624D;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+    #sidebar {
+        display: none;
+    }
+}
+/* sidebar.css */
+.hidden {
+    display: none; /* Oculta el sidebar */
+}
+
+.full-width {
+    margin-left: 0; /* Ajusta el margen del contenido principal cuando el sidebar está oculto */
 }
