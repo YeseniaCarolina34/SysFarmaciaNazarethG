@@ -11,10 +11,6 @@ public partial class Factura
     [Key]
     public int IdFactura { get; set; }
 
-    public int? IdProveedor { get; set; }
-
-    public int? IdProducto { get; set; }
-
     public int? Cantidad { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]

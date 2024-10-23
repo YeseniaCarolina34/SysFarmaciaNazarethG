@@ -17,8 +17,6 @@ public partial class Producto
     [StringLength(255)]
     public string? Descripción { get; set; }
 
-    public int? IdCategoría { get; set; }
-
     public int? IdProveedor { get; set; }
 
     [Column(TypeName = "decimal(18, 2)")]
