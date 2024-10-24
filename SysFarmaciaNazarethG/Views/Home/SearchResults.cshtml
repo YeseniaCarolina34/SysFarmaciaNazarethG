@@ -1,0 +1,30 @@
+﻿@model SearchViewModel
+
+<h2>Resultados de búsqueda</h2>
+
+@if (Model.Usuarios.Any())
+{
+    <h3>Usuarios encontrados</h3>
+    <ul>
+        @foreach (var usuario in Model.Usuarios)
+        {
+            <li>@usuario.Nombre</li>
+        }
+    </ul>
+}
+
+@if (Model.Productos.Any())
+{
+    <h3>Productos encontrados</h3>
+    <ul>
+        @foreach (var producto in Model.Productos)
+        {
+            <li>@producto.Nombre - @producto.PrecioCosto</li>
+        }
+    </ul>
+}
+
+@if (!Model.Usuarios.Any() && !Model.Productos.Any())
+{
+    <p>No se encontraron resultados para tu búsqueda.</p>
+}

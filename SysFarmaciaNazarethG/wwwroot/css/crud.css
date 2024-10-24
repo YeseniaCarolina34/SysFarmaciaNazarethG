@@ -1,22 +1,26 @@
 ﻿/* Estilos generales para el CRUD */
 body {
-    background-color: #f0fdf4; /* Fondo verde claro */
-    font-family: Arial, sans-serif;
-    color: #2e7d32; /* Texto verde oscuro */
+    /*background-color: #B8D7D5; /* Fondo verde claro */
+
+
+    font-family: Roboto, sans-serif;
+    color: #4B908E; /* Texto verde oscuro */
 }
 
-.container {
+/* Inputs .container {
     margin: 20px auto;
     max-width: 900px;
     background-color: #e8f5e9; /* Fondo para contenedores */
+    /* Inputs padding: 20px;
+    padding: 20px;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+/* Inputs}
 
 /* Estilo para los títulos */
 h1, h2, h3 {
-    color: #66bb6a; /* Verde limón */
+    color: #4B908E; /* Verde limón */
 }
 
 /* Botones */
@@ -36,12 +40,12 @@ h1, h2, h3 {
 }
     */
 
-    button:hover, .btn:hover {
-        background-color: #64dd17; /* Verde más oscuro al pasar el mouse */
-    }
+/* Inputs button:hover, .btn:hover {
+    background-color: #1b5e20; /* Verde más oscuro al pasar el mouse */
+}
 
-/* Inputs */
-input[type="text"], input[type="email"], input[type="password"], textarea, select {
+
+/* Inputs input[type="text"], input[type="email"], input[type="password"], textarea, select {
     width: 100%;
     padding: 10px;
     margin: 8px 0;
@@ -50,37 +54,7 @@ input[type="text"], input[type="email"], input[type="password"], textarea, selec
     border-radius: 4px;
     box-sizing: border-box;
     background-color: #f1f8e9;
-    color: #388e3c;
-}
-
-/* Tablas */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #f0f4c3;
-}
-
-table, th, td {
-    border: 1px solid #aed581;
-}
-
-th {
-    background-color: #76ff03;
-    color: white;
-    padding: 10px;
-}
-
-td {
-    padding: 10px;
-    text-align: center;
-}
-
-tr:nth-child(even) {
-    background-color: #e8f5e9;
-}
-
-tr:hover {
-    background-color: #c5e1a5;
+    color: #1b5e20;
 }
 
 /* Mensajes de éxito o error */
