@@ -18,7 +18,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 
-
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Cliente", policy => policy.RequireRole("Cliente"));
+    options.AddPolicy("Administrador", policy => policy.RequireRole("Administrador"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

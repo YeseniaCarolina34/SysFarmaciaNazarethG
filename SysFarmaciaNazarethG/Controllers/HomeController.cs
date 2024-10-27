@@ -54,6 +54,19 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-       
+        [Authorize(Roles = "Administrador")]
+        public IActionResult AdministrarProductos()
+        {
+            // Acción solo accesible para administradores
+            return View();
+        }
+
+        [Authorize(Roles = "User, Administrador")]
+        public IActionResult VerProductos()
+        {
+            // Acción accesible para usuarios y administradores
+            return View();
+        }
+
     }
 }

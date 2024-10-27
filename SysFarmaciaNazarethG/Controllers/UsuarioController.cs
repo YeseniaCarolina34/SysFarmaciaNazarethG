@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-
+    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
     public class UsuarioController : Controller
     {
         private readonly BDContext _context;
@@ -35,6 +35,7 @@ namespace SysFarmaciaNazarethG.Controllers
 
         // POST: Usuario/Login
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Login(string login, string password)
         {
             if (ModelState.IsValid)
@@ -53,9 +54,9 @@ namespace SysFarmaciaNazarethG.Controllers
                 {
                     new Claim(ClaimTypes.Name, usuario.Nombre),
                     new Claim(ClaimTypes.Email, usuario.Login),
-                   
-                    
-                };
+                      // Agregar el rol del usuario en los claims
+                new Claim(ClaimTypes.Role, usuario.IdRolNavigation.Nombre) // Asignamos el rol
+            };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
