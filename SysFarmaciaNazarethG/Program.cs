@@ -14,7 +14,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Usuario/Login"; // Ruta para la página de inicio de sesión
         options.LogoutPath = "/Logout"; // Ruta para el logout (se usa el controlador que creaste)
+        
     });
+
+
 
 var app = builder.Build();
 
@@ -26,7 +29,7 @@ if (!app.Environment.IsDevelopment())
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication(); // Primero la autenticación
 app.UseAuthorization();
 
 app.MapControllerRoute(

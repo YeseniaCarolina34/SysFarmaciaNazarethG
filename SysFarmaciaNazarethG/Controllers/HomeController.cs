@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SysFarmaciaNazarethG.Models;
 using System.Diagnostics;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -14,7 +16,7 @@ namespace SysFarmaciaNazarethG.Controllers
             _logger = logger;
             _context = context; // Inicializa el contexto
         }
-
+        
         public IActionResult Index()
         {
             return View();
@@ -24,6 +26,7 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             return View();
         }
+
 
         [HttpGet]
         public IActionResult Search(string query)
@@ -51,5 +54,6 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+       
     }
 }

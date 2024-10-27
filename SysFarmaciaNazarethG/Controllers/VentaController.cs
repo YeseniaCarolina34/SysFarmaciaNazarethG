@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
+    [Authorize(Roles = "Cliente, Administrador")] // Clientes y administradores pueden acceder a las vistas
     public class VentaController : Controller
     {
         private readonly BDContext _context;

@@ -11,9 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SysFarmaciaNazarethG.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
+
     public class UsuarioController : Controller
     {
         private readonly BDContext _context;
@@ -50,7 +52,9 @@ namespace SysFarmaciaNazarethG.Controllers
                     var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, usuario.Nombre),
-                    new Claim(ClaimTypes.Email, usuario.Login)
+                    new Claim(ClaimTypes.Email, usuario.Login),
+                   
+                    
                 };
 
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
@@ -62,9 +66,11 @@ namespace SysFarmaciaNazarethG.Controllers
                     HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProperties);
 
+
                     return RedirectToAction("Index", "Home"); // Redirigir al dashboard o página principal
+
                 }
-                else
+                
                 {
                     ViewBag.Error = "Credenciales incorrectas";
                 }
