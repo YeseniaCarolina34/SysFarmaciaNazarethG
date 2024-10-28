@@ -1,8 +1,9 @@
-﻿using SysFarmaciaNazarethG.Models;
+﻿
+using SysFarmaciaNazarethG.Models;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace SysFarmaciaNazarethG.Services
+namespace  SysFarmaciaNazarethG.Services
 {
     public class UsuarioService
     {
@@ -93,4 +94,3 @@ namespace SysFarmaciaNazarethG.Services
         }
     }
 }
-

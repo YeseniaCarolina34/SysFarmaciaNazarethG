@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
+    
     public class UsuarioController : Controller
     {
         private readonly BDContext _context;
@@ -27,6 +27,8 @@ namespace SysFarmaciaNazarethG.Controllers
 
 
         // GET: Usuario/Login
+
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View();
@@ -36,7 +38,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // POST: Usuario/Login
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Login(string login, string password)
+        public async Task<IActionResult> Login(string login, string password)
         {
             if (ModelState.IsValid)
             {
@@ -45,16 +47,17 @@ namespace SysFarmaciaNazarethG.Controllers
 
                 // Verificar si el usuario existe (compara el Login y Password)
                 var usuario = _context.Usuario
+                                      .Include(u => u.IdRolNavigation) // Incluimos el rol del usuario en la consulta
                                       .FirstOrDefault(u => u.Login == login && u.Password == contraseñaEncriptada);
 
                 if (usuario != null)
                 {
-                    // Autenticación exitosa, crear cookie de autenticación
+                    // Autenticación exitosa, crear claims de autenticación
                     var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, usuario.Nombre),
-                    new Claim(ClaimTypes.Email, usuario.Login),
-                      // Agregar el rol del usuario en los claims
+            {
+                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim(ClaimTypes.Email, usuario.Login),
+                // Agregar el rol del usuario en los claims
                 new Claim(ClaimTypes.Role, usuario.IdRolNavigation.Nombre) // Asignamos el rol
             };
 
@@ -64,19 +67,28 @@ namespace SysFarmaciaNazarethG.Controllers
                         IsPersistent = true, // Para mantener la sesión iniciada si se cierra el navegador
                     };
 
-                    HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
+                    // Iniciar sesión (autenticación)
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProperties);
 
-
-                    return RedirectToAction("Index", "Home"); // Redirigir al dashboard o página principal
-
+                    // Redirigir según el rol (opcional)
+                    if (usuario.IdRolNavigation.Nombre == "Administrador")
+                    {
+                        return RedirectToAction("Index", "Home"); // Redirigir al dashboard de admin
+                    }
+                    else if (usuario.IdRolNavigation.Nombre == "Cliente")
+                    {
+                        return RedirectToAction("Index", "Home"); // Redirigir a la página principal para clientes
+                    }
                 }
-                
+                else
                 {
+                    // Si las credenciales son incorrectas, mostrar error
                     ViewBag.Error = "Credenciales incorrectas";
                 }
             }
 
+            // Si el modelo no es válido o el usuario no existe, mostrar de nuevo la vista de login
             return View();
         }
 
@@ -98,11 +110,54 @@ namespace SysFarmaciaNazarethG.Controllers
             }
         }
 
-        // Cerrar sesión
-        public IActionResult Logout()
+        // GET: Usuario/Logout
+        [HttpGet]
+        public async Task<IActionResult> Logout()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login", "Usuario");
+        }
+
+        // Cerrar sesión
+        // public IActionResult Logout()
+        //{
+        //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        //return RedirectToAction("Login");
+        //}
+
+        [AllowAnonymous]
+
+        // GET: Registro
+        [HttpGet]
+        public IActionResult Registro()
+        {
+            return View();
+        }
+        // POST: Registro
+        [HttpPost]
+        public async Task<IActionResult> Registro(Usuario usuario)
+        {
+            ModelState.Remove("IdRolNavigation");
+            if (ModelState.IsValid)
+            {
+                // Asignar el rol automáticamente (IdRol 2 para "Cliente")
+                usuario.IdRol = 2; // Asegúrate de que 2 sea el Id correspondiente a "Cliente"
+                usuario.Estatus = "Activo";      // Asignamos un estatus activo
+                usuario.FechaRegistro = DateTime.Now; // Registrar la fecha de creación
+
+                // Encriptar contraseña con MD5
+                usuario.Password = EncriptarMD5(usuario.Password);
+
+                // Agregar el usuario a la base de datos
+                _context.Usuario.Add(usuario);
+                await _context.SaveChangesAsync();
+
+                // Redirigir después de registro exitoso
+                return RedirectToAction("Index", "Home");
+            }
+
+            // Si el modelo no es válido, vuelve a mostrar el formulario con errores
+            return View(usuario);
         }
 
 

@@ -26,7 +26,7 @@ public partial class Usuario
     [StringLength(20)]
     public string? Estatus { get; set; }
 
-    public DateOnly FechaRegistro { get; set; }
+    public DateTime FechaRegistro { get; set; }
 
     public int? IdRol { get; set; }
 

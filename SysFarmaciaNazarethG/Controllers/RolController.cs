@@ -10,7 +10,7 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
+    
     public class RolController : Controller
     {
         private readonly BDContext _context;
@@ -19,6 +19,7 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             _context = context;
         }
+        
 
         // GET: Rol
         public async Task<IActionResult> Index()

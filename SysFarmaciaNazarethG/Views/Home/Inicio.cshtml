@@ -1,0 +1,88 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a Farmacia Nazareth</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-image: url('https://i.pinimg.com/564x/6b/94/7c/6b947ce4297f62b09baf072b08e868d6.jpg'); /* Cambia esto por la URL de tu imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            color: #52be80;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin: 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        p {
+            font-size: 24px;
+            margin: 20px 0;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-container {
+            margin-top: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #52be80;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+            .btn:hover {
+                background-color: #45a049;
+                transform: translateY(-2px);
+            }
+
+        .btn-secondary {
+            background-color: #008CBA;
+        }
+
+            .btn-secondary:hover {
+                background-color: #007bb5;
+            }
+
+        .btn:active {
+            transform: translateY(2px);
+        }
+    </style>
+</head>
+<body>
+    <h1>¡Bienvenido a Farmacia Nazareth!</h1>
+    <p>Explora nuestra  variedad de productos. Para acceder a más funciones, por favor inicia sesión o crea una cuenta.</p>
+
+    <div class="btn-container">
+        <!-- Botón para iniciar sesión -->
+        <a class="btn" asp-controller="Usuario" asp-action="Login">Iniciar Sesión</a>
+
+        <!-- Botón para crear una nueva cuenta -->
+        <a class="btn btn-secondary" asp-controller="Usuario" asp-action="Registro">Crear Cuenta</a>
+    </div>
+</body>
+</html>

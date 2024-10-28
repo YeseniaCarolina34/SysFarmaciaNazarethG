@@ -23,7 +23,8 @@
                         <!-- Dropdown Ver Categorías -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="categoriasDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Ver Categorías
+                              Ver categoria
+                           
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="categoriasDropdown">
                                 <li><a class="dropdown-item" href="Rol">Rol</a></li>
@@ -36,7 +37,6 @@
                                 <li><a class="dropdown-item" href="Inventario">Inventario</a></li>
                                 <li><a class="dropdown-item" href="Home">Home</a></li>
                             </ul>
-                        </li>
 
                     </ul>
                 </div>
@@ -44,10 +44,7 @@
                     <input class="form-control me-2" type="search" name="query" placeholder="Buscar..." aria-label="Buscar">
                     <button class="btn btn-outline-success" type="submit">Buscar</button>
                 </form>
-                <!-- Formulario para cerrar sesión -->
-                <form class="d-flex ms-2" action="Usuario/Login" method="get">
-                    <button class="btn btn-outline-danger" type="submit">Iniciar sesión</button>
-                </form>
+                
                 <!-- Formulario para cerrar sesión -->
                 <form class="d-flex ms-2" action="@Url.Action("Logout", "Usuario")" method="post">
                     <a class="btn btn-outline-danger ms-2" href="@Url.Action("Index", "Logout")">Cerrar sesión</a>
