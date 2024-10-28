@@ -11,8 +11,7 @@
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-image: url('https://i.pinimg.com/564x/6b/94/7c/6b947ce4297f62b09baf072b08e868d6.jpg'); /* Cambia esto por la URL de tu imagen de fondo */
-            background-size: cover;
+            background-image: url('https://i.pinimg.com/736x/fa/45/20/fa4520c387c14f3bd22a0a27af36b30f.jpg'); /* Cambia esto por la URL de tu imagen de fondo */ background-size: cover;
             background-position: center;
             color: #52be80;
             text-align: center;
@@ -35,6 +34,7 @@
             font-size: 24px;
             margin: 20px 0;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            color: 008f39; /* Color de las letras del párrafo cambiado a negro */
         }
 
         .btn-container {
@@ -75,14 +75,14 @@
 </head>
 <body>
     <h1>¡Bienvenido a Farmacia Nazareth!</h1>
-    <p>Explora nuestra  variedad de productos. Para acceder a más funciones, por favor inicia sesión o crea una cuenta.</p>
+    <p>Explora nuestra variedad de productos. Para acceder a más funciones, por favor inicia sesión.</p>
 
     <div class="btn-container">
         <!-- Botón para iniciar sesión -->
         <a class="btn" asp-controller="Usuario" asp-action="Login">Iniciar Sesión</a>
 
         <!-- Botón para crear una nueva cuenta -->
-        <a asp-controller="Usuario" asp-action="Create">Crear cuenta</a>
+        <a class="btn btn-secondary" asp-controller="Usuario" asp-action="Create">Crear cuenta</a>
     </div>
 </body>
 </html>

@@ -10,7 +10,8 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-   
+    [Authorize(Roles = "Cliente, Administrador")] // Clientes y administradores pueden acceder a las vistas
+
     public class FacturaController : Controller
     {
         private readonly BDContext _context;
