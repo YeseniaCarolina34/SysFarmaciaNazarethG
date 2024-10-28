@@ -142,7 +142,7 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 // Asignar el rol automáticamente (IdRol 2 para "Cliente")
                 usuario.IdRol = 2; // Asegúrate de que 2 sea el Id correspondiente a "Cliente"
-                usuario.Estatus = "Activo";      // Asignamos un estatus activo
+                usuario.Estatus = "Activo"; // Asignamos un estatus activo
                 usuario.FechaRegistro = DateTime.Now; // Registrar la fecha de creación
 
                 // Encriptar contraseña con MD5
