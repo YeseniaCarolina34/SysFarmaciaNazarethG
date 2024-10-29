@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using iTextSharp.text.pdf;
+using iTextSharp.text;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -161,5 +159,45 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             return _context.Producto.Any(e => e.Id == id);
         }
+
+
+
+public async Task<IActionResult> ExportarPDF()
+    {
+        var productos = await _context.Producto.Include(p => p.IdProveedorNavigation).ToListAsync();
+
+        using (MemoryStream ms = new MemoryStream())
+        {
+            Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 10);
+            PdfWriter.GetInstance(pdfDoc, ms);
+            pdfDoc.Open();
+
+            pdfDoc.Add(new Paragraph("Lista de Productos"));
+            pdfDoc.Add(new Paragraph(" ")); // Espacio entre el título y la tabla
+
+            PdfPTable table = new PdfPTable(5); // Ajusta el número de columnas según los datos que deseas mostrar
+            table.AddCell("ID");
+            table.AddCell("Nombre");
+            table.AddCell("Precio");
+            table.AddCell("Cantidad en Inventario");
+            table.AddCell("Proveedor");
+
+            foreach (var producto in productos)
+            {
+                table.AddCell(producto.Id.ToString());
+                table.AddCell(producto.Nombre);
+                table.AddCell(producto.PrecioVenta.ToString("C")); // Formato de moneda
+                table.AddCell(producto.CantidadEnInventario.ToString());
+                table.AddCell(producto.IdProveedorNavigation.Nombre); // Asegúrate de que el nombre del proveedor esté incluido
+            }
+
+            pdfDoc.Add(table);
+            pdfDoc.Close();
+
+            return File(ms.ToArray(), "application/pdf", "Productos.pdf");
+        }
     }
+
+
+}
 }

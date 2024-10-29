@@ -120,11 +120,11 @@ namespace SysFarmaciaNazarethG.Controllers
         }
 
         // Cerrar sesión
-        // public IActionResult Logout()
-        //{
-        //HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        //return RedirectToAction("Login");
-        //}
+        public async Task<IActionResult> Logoutt()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Login"); // Redirigir al usuario a la vista de inicio de sesión
+        }
 
         [AllowAnonymous]
 
