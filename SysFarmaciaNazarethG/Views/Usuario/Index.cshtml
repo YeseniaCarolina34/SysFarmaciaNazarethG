@@ -4,7 +4,6 @@
     ViewData["Title"] = "Index";
 }
 <head>
-
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
 
@@ -34,9 +33,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.FechaRegistro)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdRolNavigation)
-            </th>
+           
             <th></th>
         </tr>
     </thead>
@@ -61,9 +58,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.FechaRegistro)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdRolNavigation.Id)
-            </td>
+         
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
