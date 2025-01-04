@@ -18,7 +18,7 @@ namespace SysFarmaciaNazarethG.Controllers
         }
 
 
-        // Acción pública que muestra la página de inicio de la cafetería
+       
         [AllowAnonymous]
         public IActionResult Inicio()
         {

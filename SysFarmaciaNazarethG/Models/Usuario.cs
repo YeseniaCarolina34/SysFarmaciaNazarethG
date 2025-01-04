@@ -17,9 +17,10 @@ public partial class Usuario
     [StringLength(50)]
     public string Apellido { get; set; } = null!;
 
+    [Required(ErrorMessage = "El correo es obligatorio.")]
+    [EmailAddress(ErrorMessage = "Debe ingresar un correo válido.")]
     [StringLength(50)]
-    public string Login { get; set; } = null!;
-
+    public string Email { get; set; } = null!;
     [StringLength(100)]
     public string Password { get; set; } = null!;
 

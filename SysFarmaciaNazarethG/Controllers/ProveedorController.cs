@@ -10,7 +10,7 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
+    
     public class ProveedorController : Controller
     {
         private readonly BDContext _context;
@@ -45,11 +45,11 @@ namespace SysFarmaciaNazarethG.Controllers
 
             return View(proveedor);
         }
-
+        
         // GET: Proveedor/Create
         public IActionResult Create()
         {
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id");
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre");
             return View();
         }
 
@@ -83,7 +83,7 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Id", proveedor.IdUsuario);
+            ViewData["IdUsuario"] = new SelectList(_context.Usuario, "Id", "Nombre", proveedor.IdUsuario);
             return View(proveedor);
         }
 

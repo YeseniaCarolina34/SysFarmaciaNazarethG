@@ -19,7 +19,7 @@ public partial class Inventario
     public string? Ubicación { get; set; }
 
     public DateOnly? FechaDeIngreso { get; set; }
-
+  
     [StringLength(20)]
     public string? Estado { get; set; }
 

@@ -16,14 +16,14 @@ namespace  SysFarmaciaNazarethG.Services
         }
 
         // Método para validar las credenciales del usuario (login y contraseña)
-        public Usuario? ValidarUsuario(string login, string password)
+        public Usuario? ValidarUsuario(string Email, string password)
         {
             // Encriptar la contraseña ingresada con MD5
             string passwordEncriptada = ConvertirMD5(password);
 
             // Buscar el usuario en la base de datos con el login y contraseña encriptada
             var usuario = _context.Usuario
-                .FirstOrDefault(u => u.Login == login && u.Password == passwordEncriptada);
+                .FirstOrDefault(u => u.Email == Email && u.Password == passwordEncriptada);
 
             return usuario;
         }
@@ -70,7 +70,7 @@ namespace  SysFarmaciaNazarethG.Services
             {
                 usuarioExistente.Nombre = usuario.Nombre;
                 usuarioExistente.Apellido = usuario.Apellido;
-                usuarioExistente.Login = usuario.Login;
+                usuarioExistente.Email = usuario.Email;
 
                 // Encriptar la nueva contraseña si ha sido modificada
                 if (usuario.Password != usuarioExistente.Password)

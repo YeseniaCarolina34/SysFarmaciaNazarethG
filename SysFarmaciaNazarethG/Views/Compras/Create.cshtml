@@ -1,0 +1,102 @@
+﻿@model SysFarmaciaNazarethG.Models.Compras
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div style="background-color: #E8F5E9; padding: 20px; border-radius: 8px;">
+    <h1 class="text-center" style="color: #2E7D32;">Crear Compra</h1>
+    <h4 class="text-center" style="color: #1B5E20;">Información de la Compra</h4>
+    <hr />
+    <div class="container" style="border: 1px solid #A5D6A7; padding: 20px; border-radius: 8px; background-color: #E8F5E9;">
+        <form class="row" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Primera columna -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Codigo" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Codigo" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Codigo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Descripcion" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Descripcion" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Descripcion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cantidad" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Cantidad" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Cantidad" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Bonificacion" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Bonificacion" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Bonificacion" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrecioCosto" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="PrecioCosto" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="PrecioCosto" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PrecioUnitario" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="PrecioUnitario" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="PrecioUnitario" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- Segunda columna -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Laboratorio" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Laboratorio" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Laboratorio" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Descuento" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Descuento" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Descuento" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VentasNoSujetas" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="VentasNoSujetas" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="VentasNoSujetas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VentasExtensas" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="VentasExtensas" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="VentasExtensas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VentasAfectas" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="VentasAfectas" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="VentasAfectas" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="IdProveedor" class="control-label font-weight-bold" style="color: black;"></label>
+                    <select asp-for="IdProveedor" class="form-control" style="border: 1px solid #81C784;" asp-items="ViewBag.IdProveedor"></select>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Nombre" class="control-label font-weight-bold" style="color: black;"></label>
+                    <input asp-for="Nombre" class="form-control" style="border: 1px solid #81C784;" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+            </div>
+
+            <!-- Botones centrados al final -->
+            <div class="form-group mt-4 text-center col-md-12">
+                <input type="submit" value="Crear" class="btn" style="background-color: #2E7D32; color: white; border: none; width: 120px;" />
+                <a asp-action="Index" class="btn" style="background-color: #66BB6A; color: white; border: none; width: 120px;">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

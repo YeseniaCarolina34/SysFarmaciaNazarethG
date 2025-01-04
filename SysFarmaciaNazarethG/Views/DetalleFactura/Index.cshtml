@@ -1,0 +1,66 @@
+﻿@model IEnumerable<SysFarmaciaNazarethG.Models.DetalleFactura>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<head>
+    <link rel="stylesheet" href="~/css/crud.css" />
+</head>
+<h1>DETALLEFACTURA</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Crear Detalle Factura</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Cantidad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Descripcion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PrecioUnitario)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdFacturaNavigation)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cantidad)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioUnitario)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdFacturaNavigation.IdFactura)
+            </td>
+           
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.IdDetalleFactura">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdDetalleFactura">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdDetalleFactura">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,54 +1,49 @@
 ﻿@model SysFarmaciaNazarethG.Models.Factura
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles de la Factura";
 }
 
-<h1>Details</h1>
+<h1 class="text-center" style="color: #1976D2;">Detalles de la Factura</h1>
 
-<div>
-    <h4>Factura</h4>
+<div class="container" style="border: 1px solid #BBDEFB; background-color: #E3F2FD; border-radius: 10px; padding: 20px;">
+    <h4 class="text-center" style="color: #0D47A1;">Información de la Factura</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecioTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaDeEmisión)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaDeEmisión)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MétodoDePago)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MétodoDePago)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estado)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estado)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdVentaNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdVentaNavigation.IdVenta)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdFactura">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Número de Factura</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.FacturaNo)</dd>
+
+                <dt class="col-sm-4">Fecha</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Fecha)</dd>
+
+                <dt class="col-sm-4">SubTotal</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.SubTotal)</dd>
+
+                <dt class="col-sm-4">IVA</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Iva)</dd>
+
+                <dt class="col-sm-4">Total</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Total)</dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Cliente</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdClienteNavigation.IdCliente)</dd>
+
+                <dt class="col-sm-4">Venta</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdVentaNavigation.IdVenta)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.IdFactura" class="btn btn-primary" style="width: 150px;">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </div>
 </div>

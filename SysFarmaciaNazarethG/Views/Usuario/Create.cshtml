@@ -4,62 +4,70 @@
     ViewData["Title"] = "Create";
 }
 <head>
-
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
-<h1>Create</h1>
 
-<h4>Usuario</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<h1 class="text-center" style="color: #2E7D32;">Crear Usuario</h1>
+
+<div class="container" style="border: 1px solid #A5D6A7; background-color: #E8F5E9; border-radius: 10px; padding: 20px;">
+    <h4 class="text-center" style="color: #1B5E20;">Formulario de Registro</h4>
+    <hr />
+    <form class="row" asp-action="Create">
+        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+        <!-- Primera columna -->
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
+                <label asp-for="Nombre" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="Nombre" class="form-control" style="border: 1px solid #81C784;" />
                 <span asp-validation-for="Nombre" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Apellido" class="control-label"></label>
-                <input asp-for="Apellido" class="form-control" />
+                <label asp-for="Apellido" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="Apellido" class="form-control" style="border: 1px solid #81C784;" />
                 <span asp-validation-for="Apellido" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Login" class="control-label"></label>
-                <input asp-for="Login" class="form-control" />
-                <span asp-validation-for="Login" class="text-danger"></span>
+                <label asp-for="Email" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="Email" class="form-control" style="border: 1px solid #81C784;" />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
+                <label asp-for="Password" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="Password" class="form-control" type="password" style="border: 1px solid #81C784;" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-md-6">
             <div class="form-group">
-                <label asp-for="Estatus" class="control-label"></label>
-                <input asp-for="Estatus" class="form-control" />
+                <label asp-for="Estatus" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="Estatus" class="form-control" style="border: 1px solid #81C784;" />
                 <span asp-validation-for="Estatus" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FechaRegistro" class="control-label"></label>
-                <input asp-for="FechaRegistro" class="form-control" />
+                <label asp-for="FechaRegistro" class="control-label font-weight-bold" style="color: black;"></label>
+                <input asp-for="FechaRegistro" class="form-control" style="border: 1px solid #81C784;" />
                 <span asp-validation-for="FechaRegistro" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="IdRol" class="control-label"></label>
-                <select asp-for="IdRol" class ="form-control" asp-items="ViewBag.IdRol"></select>
+                <label asp-for="IdRol" class="control-label font-weight-bold" style="color: black;"></label>
+                <select asp-for="IdRol" class="form-control" style="border: 1px solid #81C784;" asp-items="ViewBag.IdRol"></select>
+                <span asp-validation-for="IdRol" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+        </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+        <!-- Botones -->
+        <div class="form-group mt-4 text-center col-md-12">
+            <input type="submit" value="Crear" class="btn" style="background-color: #2E7D32; color: white; border: none; width: 120px;" />
+            <a asp-action="Index" class="btn" style="background-color: #66BB6A; color: white; border: none; width: 120px;">Regresar</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

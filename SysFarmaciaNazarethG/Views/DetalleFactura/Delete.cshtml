@@ -1,0 +1,69 @@
+﻿@model SysFarmaciaNazarethG.Models.DetalleFactura
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1 class="text-center" style="color: #B71C1C;">Eliminar Detalle de Factura</h1>
+
+<div class="container" style="border: 1px solid #EF9A9A; background-color: #FFEBEE; border-radius: 10px; padding: 20px;">
+    <h3 class="text-center" style="color: #C62828;">¿Estás seguro de que deseas eliminar este detalle de factura?</h3>
+    <hr />
+    <h4 style="color: #D32F2F;">Detalles del Detalle de Factura</h4>
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Cantidad)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Cantidad)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Descripcion)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Descripcion)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.PrecioUnitario)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.PrecioUnitario)
+                </dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Total)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Total)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.IdFacturaNavigation)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IdFacturaNavigation.IdFactura)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.IdProductoNavigation)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IdProductoNavigation.Id)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Formulario de confirmación -->
+    <form asp-action="Delete" class="text-center mt-4">
+        <input type="hidden" asp-for="IdDetalleFactura" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" style="width: 150px;" />
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </form>
+</div>

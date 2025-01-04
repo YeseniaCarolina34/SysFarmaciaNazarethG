@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Confirmación de Cierre de Sesión";
+}
+
+<style>
+    .custom-container {
+        height: 100vh;
+        background: linear-gradient(to right,#4caf50); /* Gradiente de fondo */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .card-custom {
+        width: 28rem; /* Ancho de la tarjeta */
+        border-radius: 15px; /* Bordes redondeados */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Sombra para profundidad */
+    }
+
+    .btn-custom-green {
+        background-color: #4caf50; /* Un verde más atractivo */
+        color: white;
+        transition: background-color 0.3s ease; /* Transición suave */
+    }
+
+        .btn-custom-green:hover {
+            background-color: #388e3c; /* Tono más oscuro al pasar el ratón */
+        }
+
+    .card-header {
+        border-top-left-radius: 15px; /* Bordes redondeados en la parte superior */
+        border-top-right-radius: 15px; /* Bordes redondeados en la parte superior */
+    }
+</style>
+
+<div class="custom-container">
+    <div class="card text-center card-custom">
+        <div class="card-header bg-success text-white">
+            <h4>Confirmación de Cierre de Sesión</h4>
+        </div>
+        <div class="card-body">
+            <p class="card-text">¿Está seguro de que desea cerrar sesión?</p>
+            <p class="text-muted">Por favor, asegúrese de haber guardado toda la información importante antes de salir.</p>
+            <!-- Botón para confirmar cierre de sesión -->
+            <a href="@Url.Action("Index", "Logout")" class="btn btn-custom-green me-2">Sí, cerrar sesión</a>
+            <!-- Botón para cancelar y volver al inicio -->
+            <a href="@Url.Action("Index", "Home")" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+        <div class="card-footer text-muted">
+            Gracias por su visita
+        </div>
+    </div>
+</div>

@@ -1,0 +1,13 @@
+﻿﻿<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    Swal.fire({
+        icon: 'error',
+        title: 'Acceso Denegado',
+        text: 'No tienes permiso para acceder a esta sección.',
+        confirmButtonText: 'Regresar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = '/Home/Index'; // Cambia esta ruta a la página de inicio o donde prefieras redirigir al usuario
+        }
+    });
+</script>

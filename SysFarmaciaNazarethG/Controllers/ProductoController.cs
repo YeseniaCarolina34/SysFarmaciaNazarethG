@@ -8,7 +8,7 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Cliente, Administrador")] // Clientes y administradores pueden acceder a las vistas
+   
     public class ProductoController : Controller
     {
         private readonly BDContext _context;
@@ -47,7 +47,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // GET: Producto/Create
         public IActionResult Create()
         {
-            ViewData["IdProveedor"] = new SelectList(_context.Proveedor, "IdProveedor", "IdProveedor");
+            ViewData["IdProveedor"] = new SelectList(_context.Proveedor, "IdProveedor", "Nombre");
             return View();
         }
 
@@ -81,7 +81,7 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdProveedor"] = new SelectList(_context.Proveedor, "IdProveedor", "IdProveedor", producto.IdProveedor);
+            ViewData["IdProveedor"] = new SelectList(_context.Proveedor, "IdProveedor", "Nombre", producto.IdProveedor);
             return View(producto);
         }
 
@@ -162,42 +162,127 @@ namespace SysFarmaciaNazarethG.Controllers
 
 
 
-public async Task<IActionResult> ExportarPDF()
-    {
-        var productos = await _context.Producto.Include(p => p.IdProveedorNavigation).ToListAsync();
-
-        using (MemoryStream ms = new MemoryStream())
+        public async Task<IActionResult> ExportarPDF()
         {
-            Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 10);
-            PdfWriter.GetInstance(pdfDoc, ms);
-            pdfDoc.Open();
+            // Obtener la lista de productos con su proveedor
+            var productos = await _context.Producto.Include(p => p.IdProveedorNavigation).ToListAsync();
 
-            pdfDoc.Add(new Paragraph("Lista de Productos"));
-            pdfDoc.Add(new Paragraph(" ")); // Espacio entre el título y la tabla
-
-            PdfPTable table = new PdfPTable(5); // Ajusta el número de columnas según los datos que deseas mostrar
-            table.AddCell("ID");
-            table.AddCell("Nombre");
-            table.AddCell("Precio");
-            table.AddCell("Cantidad en Inventario");
-            table.AddCell("Proveedor");
-
-            foreach (var producto in productos)
+            // Validar si hay productos
+            if (productos == null || !productos.Any())
             {
-                table.AddCell(producto.Id.ToString());
-                table.AddCell(producto.Nombre);
-                table.AddCell(producto.PrecioVenta.ToString("C")); // Formato de moneda
-                table.AddCell(producto.CantidadEnInventario.ToString());
-                table.AddCell(producto.IdProveedorNavigation.Nombre); // Asegúrate de que el nombre del proveedor esté incluido
+                return BadRequest("No hay productos disponibles para generar el PDF.");
             }
 
-            pdfDoc.Add(table);
-            pdfDoc.Close();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 10);
+                PdfWriter.GetInstance(pdfDoc, ms);
+                pdfDoc.Open();
 
-            return File(ms.ToArray(), "application/pdf", "Productos.pdf");
+                // Título del documento
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+                var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 12);
+                pdfDoc.Add(new Paragraph("Lista de Productos", titleFont));
+                pdfDoc.Add(new Paragraph(" ")); // Espacio entre el título y la tabla
+
+                // Crear una tabla
+                PdfPTable table = new PdfPTable(5); // Ajusta el número de columnas según los datos
+                table.WidthPercentage = 100;
+                table.SetWidths(new float[] { 1f, 2f, 1f, 1.5f, 2f }); // Ajusta proporciones según los datos
+
+                // Encabezados de la tabla con fondo celeste
+                BaseColor headerBackgroundColor = new BaseColor(173, 216, 230); // Color celeste
+
+                PdfPCell headerCell = new PdfPCell(new Phrase("ID", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Nombre", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Precio", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Cantidad en Inventario", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Proveedor", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                // Filas de datos con fondo blanco
+                foreach (var producto in productos)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(producto.Id.ToString(), normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(producto.Nombre, normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(producto.PrecioVenta.ToString("C"), normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(producto.CantidadEnInventario.ToString(), normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(producto.IdProveedorNavigation?.Nombre ?? "Sin proveedor", normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+                }
+
+                pdfDoc.Add(table);
+                pdfDoc.Close();
+
+                return File(ms.ToArray(), "application/pdf", "Productos.pdf");
+            }
         }
+
+
+
+
     }
 
-
-}
 }

@@ -4,80 +4,105 @@
     ViewData["Title"] = "Index";
 }
 <head>
-    <link rel="stylesheet" href="~/css/crud.css"/>
+    <link rel="stylesheet" href="~/css/crud.css" />
 </head>
-<h1>Index</h1>
+<h1>PRODUCTOS</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/Producto/Create" class="btn" style="background-color:#4CAF50;color: white;">Crear nuevos Productos</a>
 </p>
-<a href="@Url.Action("ExportarPDF", "Producto")" class="btn btn-primary">Exportar a PDF</a>
+
+<a href="@Url.Action("ExportarPDF", "Producto")" class="btn btn-primary">Exportar Reporte de medicamentos en PDF </a>
 <br />
 <br />
 
-<table class="table">
+<!-- Formulario de búsqueda -->
+<div>
+    <input type="text"
+           id="searchInput"
+           class="form-control"
+           placeholder="Buscar en la tabla..."
+           onkeyup="filterTable()" />
+</div>
+<br />
+
+<table class="table" id="productTable">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Nombre)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Descripción)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PrecioVenta)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CódigoDeBarras)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CantidadEnInventario)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeIngreso)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaDeCaducidad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Laboratorio)
-            </th>
-            <th></th>
+            <th onclick="sortTable(0)">Nombre &#x25B2;&#x25BC;</th>
+           
+            <th onclick="sortTable(2)">Código de Barras &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(3)">Fecha  Ingreso &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(4)">Laboratorio &#x25B2;&#x25BC;</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nombre)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Descripción)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PrecioVenta)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CódigoDeBarras)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CantidadEnInventario)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeIngreso)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaDeCaducidad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Laboratorio)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Nombre</td>
+                <td>@item.CódigoDeBarras</td>
+                <td>@item.FechaDeIngreso</td>
+                <td>@item.Laboratorio</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script>
+    // Función para filtrar la tabla
+    function filterTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("productTable");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) {
+            let visible = false;
+            const cells = rows[i].getElementsByTagName("td");
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        visible = true;
+                        break;
+                    }
+                }
+            }
+
+            rows[i].style.display = visible ? "" : "none";
+        }
+    }
+
+    // Función para ordenar la tabla
+    function sortTable(columnIndex) {
+        const table = document.getElementById("productTable");
+        const rows = Array.from(table.rows).slice(1); // Excluir encabezado
+        const isAscending = table.getAttribute("data-sort-order") !== "asc";
+        const direction = isAscending ? 1 : -1;
+
+        rows.sort((a, b) => {
+            const aText = a.cells[columnIndex].innerText.trim();
+            const bText = b.cells[columnIndex].innerText.trim();
+
+            // Comparar como números si corresponde, de lo contrario como texto
+            const aValue = isNaN(aText) ? aText.toLowerCase() : parseFloat(aText);
+            const bValue = isNaN(bText) ? bText.toLowerCase() : parseFloat(bText);
+
+            return aValue > bValue ? direction : aValue < bValue ? -direction : 0;
+        });
+
+        // Actualizar la tabla con las filas ordenadas
+        rows.forEach(row => table.tBodies[0].appendChild(row));
+
+        // Cambiar la dirección de ordenación
+        table.setAttribute("data-sort-order", isAscending ? "asc" : "desc");
+    }
+</script>

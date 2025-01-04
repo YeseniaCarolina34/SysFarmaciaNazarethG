@@ -1,0 +1,35 @@
+﻿@model SysFarmaciaNazarethG.Models.Cliente
+
+@{
+    ViewData["Title"] = "Detalles del Cliente";
+}
+
+<h1 class="text-center" style="color: #1976D2;">Detalles del Cliente</h1>
+
+<div class="container" style="border: 1px solid #BBDEFB; background-color: #E3F2FD; border-radius: 10px; padding: 20px;">
+    <h4 class="text-center" style="color: #0D47A1;">Información del Cliente</h4>
+    <hr />
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Nombre</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
+
+                <dt class="col-sm-4">Dirección</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Direccion)</dd>
+
+                <dt class="col-sm-4">Venta a Cuenta de</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VentaACuentaDe)</dd>
+            </dl>
+        </div>
+
+     
+        
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.IdCliente" class="btn btn-primary" style="width: 150px;">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </div>
+</div>

@@ -4,45 +4,46 @@
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+<h1 class="text-center" style="color: #1976D2;">Detalles de la Venta</h1>
 
-<div>
-    <h4>Venta</h4>
+<div class="container" style="border: 1px solid #BBDEFB; background-color: #E3F2FD; border-radius: 10px; padding: 20px;">
+    <h4 class="text-center" style="color: #0D47A1;">Información de la Venta</h4>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cantidad)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cantidad)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioUnitario)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecioUnitario)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PrecioTotal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PrecioTotal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EnviosDeSucursal)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EnviosDeSucursal)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdProductoNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdProductoNavigation.Id)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdVenta">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Cantidad</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Cantidad)</dd>
+
+                <dt class="col-sm-4">Precio Unitario</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PrecioUnitario)</dd>
+
+                <dt class="col-sm-4">Precio Total</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PrecioTotal)</dd>
+
+                <dt class="col-sm-4">Envíos de Sucursal</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.EnviosDeSucursal)</dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Producto ID</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdProductoNavigation.Id)</dd>
+
+                <dt class="col-sm-4">Nombre del Producto</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdProductoNavigation.Nombre)</dd>
+
+                <dt class="col-sm-4">Descripción</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdProductoNavigation.Descripción)</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.IdVenta" class="btn btn-primary" style="width: 150px;">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </div>
 </div>

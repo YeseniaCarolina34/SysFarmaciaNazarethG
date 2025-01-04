@@ -10,7 +10,6 @@ using SysFarmaciaNazarethG.Models;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Cliente, Administrador")] // Clientes y administradores pueden acceder a las vistas
     public class VentaController : Controller
     {
         private readonly BDContext _context;
@@ -49,27 +48,67 @@ namespace SysFarmaciaNazarethG.Controllers
         // GET: Venta/Create
         public IActionResult Create()
         {
-            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Id");
+            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Nombre");
             return View();
         }
 
-        // POST: Venta/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("IdVenta,Cantidad,PrecioUnitario,PrecioTotal,EnviosDeSucursal,IdProducto")] Venta venta)
         {
             if (ModelState.IsValid)
             {
+                // Agregar la venta al contexto
                 _context.Add(venta);
+
+                // Obtener el inventario del producto
+                var inventario = await _context.Inventario
+                    .FirstOrDefaultAsync(i => i.IdProducto == venta.IdProducto);
+
+                // Obtener el producto
+                var producto = await _context.Producto
+                    .FirstOrDefaultAsync(p => p.Id == venta.IdProducto);
+
+                // Obtener la descripción del producto
+                string descripcionProducto = producto?.Descripción ?? "Sin descripción";
+
+                // Puedes usar la descripción en algún lugar, como para un log o devolverlo a la vista
+                Console.WriteLine("Descripción del Producto: " + descripcionProducto);
+
+                if (inventario != null)
+                {
+                    inventario.Cantidad -= venta.Cantidad;
+
+                    if (inventario.Cantidad <= 0)
+                    {
+                        // Actualizar el estado del producto si el inventario llega a 0
+                        if (producto != null)
+                        {
+                            producto.Estado = "Inactivo"; // Actualizar el estado
+                        }
+
+                        // Eliminar el inventario si la cantidad es 0
+                        _context.Inventario.Remove(inventario);
+                    }
+                }
+
+                // Si el producto se encontró pero no tiene inventario, actualizar su estado
+                if (producto != null && (inventario == null || inventario.Cantidad <= 0))
+                {
+                    producto.Estado = "Inactivo";
+                    _context.Entry(producto).State = EntityState.Modified;
+                }
+
+                // Guardar todos los cambios en la base de datos
                 await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Id", venta.IdProducto);
+
+            // Si hay errores, recargar la vista
+            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Nombre", venta.IdProducto);
             return View(venta);
         }
-
         // GET: Venta/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -83,9 +122,22 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Id", venta.IdProducto);
+            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Nombre", venta.IdProducto);
             return View(venta);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetDescripcionProducto(int idProducto)
+        {
+            var producto = await _context.Producto.FirstOrDefaultAsync(p => p.Id == idProducto);
+
+            if (producto != null)
+            {
+                return Json(new { descripcion = producto.Descripción });
+            }
+
+            return Json(new { descripcion = "Descripción no disponible" });
+        }
+
 
         // POST: Venta/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.

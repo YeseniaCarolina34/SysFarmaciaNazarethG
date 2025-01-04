@@ -1,0 +1,115 @@
+﻿@model SysFarmaciaNazarethG.Models.Usuario
+
+<head>
+    <link rel="stylesheet" href="~/css/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<style>
+    /* Aquí va el código CSS */
+    .form-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 8px;
+        background-color: #e6f4e6; /* Fondo verde claro */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border: 1px solid #4CAF50; /* Borde verde */
+    }
+
+    h2 {
+        text-align: center;
+        color: #4CAF50; /* Título en verde */
+        margin-bottom: 20px;
+    }
+
+    /* Estilo para el contenedor de los campos */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+        .form-group label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #4CAF50; /* Etiqueta en verde */
+        }
+
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border: 1px solid #4CAF50; /* Borde del campo verde */
+        border-radius: 4px;
+        background-color: #fff;
+        margin-top: 5px;
+    }
+
+    /* Estilo para el botón */
+    .btn {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50; /* Botón verde */
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn:hover {
+            background-color: #45a049; /* Color de fondo cuando el botón es hover */
+        }
+
+    /* Estilo para el borde del campo cuando se hace foco */
+    .form-control:focus {
+        outline: none;
+        border-color: #45a049; /* Borde verde cuando el campo está en foco */
+    }
+</style>
+
+
+<div class="form-container">
+    <h2>Cambiar Contraseña</h2>
+    <form method="post" asp-controller="Usuario" asp-action="CambiarContraseña">
+        <input type="hidden" name="Id" value="@Model.Id" />
+
+        <div class="form-group">
+            <label for="nuevaContraseña">Nueva Contraseña:</label>
+            <input type="password" id="nuevaContraseña" name="nuevaContraseña" required class="form-control" />
+        </div>
+
+        <button type="submit" class="btn">Cambiar Contraseña</button>
+    </form>
+</div>
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: '¡Contraseña Actualizada!',
+            html: '@Html.Raw(TempData["SuccessMessage"])',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '@Url.Action("Inicio", "Home")'; // Redirige a la página de inicio.
+            }
+        });
+    </script>
+}
+
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: '@TempData["ErrorMessage"]',
+            confirmButtonText: 'Aceptar',
+            allowOutsideClick: false
+        });
+    </script>
+}

@@ -6,11 +6,16 @@
 <head>
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
-<h1>Index</h1>
+
+<body style="background-color:#F5F5F5;">
+</body>
+<h1>INVENTARIOS</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/Inventario/Create" class="btn" style="background-color:#4CAF50;color: white;">Crear nuevos  Inventario</a>
 </p>
+
+
 <a href="@Url.Action("ExportarPDF", "Inventario")" class="btn btn-primary">Exportar a PDF</a>
 <br />
 <br />
@@ -22,16 +27,13 @@
                 @Html.DisplayNameFor(model => model.Cantidad)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Ubicación)
+                @Html.DisplayNameFor(model => model.IdProductoNavigation.Nombre)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.FechaDeIngreso)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdProductoNavigation)
             </th>
             <th></th>
         </tr>
@@ -43,7 +45,7 @@
                 @Html.DisplayFor(modelItem => item.Cantidad)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Ubicación)
+                    @Html.DisplayFor(modelItem => item.IdProductoNavigation.Nombre)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FechaDeIngreso)
@@ -52,12 +54,9 @@
                 @Html.DisplayFor(modelItem => item.Estado)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.IdProductoNavigation.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdInventario">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdInventario">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdInventario">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdInventario">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdInventario">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdInventario">Eliminar</a>
             </td>
         </tr>
 }

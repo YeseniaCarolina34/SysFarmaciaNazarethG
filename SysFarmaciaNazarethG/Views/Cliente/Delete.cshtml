@@ -1,0 +1,51 @@
+﻿@model SysFarmaciaNazarethG.Models.Cliente
+
+@{
+    ViewData["Title"] = "Eliminar";
+}
+
+<h1 class="text-center" style="color: #B71C1C;">Eliminar Cliente</h1>
+
+<div class="container" style="border: 1px solid #EF9A9A; background-color: #FFEBEE; border-radius: 10px; padding: 20px;">
+    <h3 class="text-center" style="color: #C62828;">¿Estás seguro de que deseas eliminar este cliente?</h3>
+    <hr />
+    <h4 style="color: #D32F2F;">Detalles del Cliente</h4>
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Direccion)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Direccion)
+                </dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.VentaACuentaDe)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.VentaACuentaDe)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Formulario de confirmación -->
+    <form asp-action="Delete" class="text-center mt-4">
+        <input type="hidden" asp-for="IdCliente" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" style="width: 150px;" />
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </form>
+</div>

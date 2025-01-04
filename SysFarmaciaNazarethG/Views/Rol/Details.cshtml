@@ -1,25 +1,32 @@
 ﻿@model SysFarmaciaNazarethG.Models.Rol
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalles del Rol";
 }
 
+<h1 class="text-center" style="color:#2E7D32;">Detalles del Rol</h1>
 
-<h1>Details</h1>
-
-<div>
-    <h4>Rol</h4>
+<div class="container" style="border: 1px solid #A5D6A7; padding: 20px; border-radius: 8px; background-color: #E8F5E9;">
+    <h4 class="text-center" style="color: #2E7D32;">Información del Rol</h4>
     <hr />
+
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Nombre)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Nombre)
         </dd>
     </dl>
+
+    <div class="text-center mt-4">
+        <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary" style="width: 150px;">Editar</a>
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

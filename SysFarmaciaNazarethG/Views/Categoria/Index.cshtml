@@ -6,11 +6,14 @@
 <head>
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
-<h1>Index</h1>
+<h1>CATEGORIAS</h1>
+
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="/Categoria/Create" class="btn" style="background-color:#4CAF50;color: white;">Crear Nuevas Categorias</a>
 </p>
+
 <table class="table">
     <thead>
         <tr>
@@ -39,9 +42,9 @@
                 @Html.DisplayFor(modelItem => item.IdInventarioNavigation.IdInventario)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.IdCategoria">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdCategoria">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdCategoria">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.IdCategoria">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.IdCategoria">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.IdCategoria">Eliminar</a>
             </td>
         </tr>
 }

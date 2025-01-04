@@ -1,0 +1,123 @@
+﻿@model SysFarmaciaNazarethG.Models.FacturaViewModel
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    form {
+        background-color: #e8f5e9;
+        border: 1px solid #4caf50;
+        border-radius: 8px;
+        padding: 20px;
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        form div {
+            margin-bottom: 15px;
+        }
+
+    label {
+        font-weight: bold;
+        color: #388e3c;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #4caf50;
+        border-radius: 4px;
+        margin-top: 5px;
+        background-color: #ffffff;
+        color: #388e3c;
+    }
+
+    button {
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-right: 10px;
+    }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+    .detalle-item {
+        border: 1px solid #a5d6a7;
+        padding: 10px;
+        border-radius: 4px;
+        background-color: #ffffff;
+        margin-bottom: 10px;
+    }
+
+        .detalle-item label {
+            color: #2e7d32;
+        }
+</style>
+
+<h2 style="text-align: center; font-size: 24px;">Crear Factura sin IVA</h2>
+<form asp-action="CrearFacturaSinIVA" method="post">
+    <div>
+        <label>Nombre del Cliente:</label>
+        <input type="text" name="NombreCliente" required />
+    </div>
+    <div>
+        <label>Dirección:</label>
+        <input type="text" name="DireccionCliente" required />
+    </div>
+
+    <div id="detalles">
+        <!-- Detalles de la factura -->
+        <div class="detalle-item">
+            <label>Producto:</label>
+            <select name="Detalles[0].IdProducto" required>
+                <option value="">Seleccione un producto</option>
+                @foreach (var producto in Model.Producto)
+                {
+                    <option value="@producto.Id">
+                        @producto.Nombre
+                    </option>
+                }
+            </select>
+            <label>Cantidad:</label>
+            <input type="number" name="Detalles[0].Cantidad" required />
+            <label>Precio:</label>
+            <input type="Decimal" name="Detalles[0].PrecioUnitario" required />
+        </div>
+    </div>
+
+    <button type="button" onclick="agregarDetalle()">Agregar Producto</button>
+    <button type="submit">Guardar Factura</button>
+    <a href="/Factura/Index" class="btn" style="background-color: #388e3c; color: white; text-decoration: none; padding: 10px 20px; border-radius: 4px;">Regresar</a>
+</form>
+
+<script>
+    let detalleIndex = 1;
+
+    function agregarDetalle() {
+        const container = document.getElementById("detalles");
+        const detalleHtml = `
+                    <div class="detalle-item">
+                        <label>Producto:</label>
+                        <select name="Detalles[${detalleIndex}].IdProducto" required>
+    @foreach (var producto in Model.Producto)
+    {
+                                        <option value="@producto.Id">@producto.Nombre - $@producto.PrecioVenta</option>
+    }
+                        </select>
+                        <label>Cantidad:</label>
+                        <input type="number" name="Detalles[${detalleIndex}].Cantidad" required />
+                    </div>`;
+        container.insertAdjacentHTML("beforeend", detalleHtml);
+        detalleIndex++;
+    }
+</script>

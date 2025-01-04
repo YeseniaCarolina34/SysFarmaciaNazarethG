@@ -6,31 +6,33 @@
 <head>
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
-<h1>Index</h1>
+ <h1>FACTURA</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
-</p>
+   
+
+    <a asp-action="CrearFacturaSinIva" class="btn btn-primary" style="background-color: #007bff; border: none;">
+        Crear Factura Sin IVA
+    </a>
+
+    <a asp-action="CrearFactura" class="btn btn-primary">Crear Factura</a>
+
+</p> 
 <table class="table">
     <thead>
         <tr>
+
             <th>
-                @Html.DisplayNameFor(model => model.Cantidad)
+                @Html.DisplayNameFor(model => model.SubTotal)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PrecioTotal)
+                @Html.DisplayNameFor(model => model.Iva)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.FechaDeEmisión)
+                @Html.DisplayNameFor(model => model.Total)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.MétodoDePago)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Estado)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.IdVentaNavigation)
+                @Html.DisplayNameFor(model => model.IdClienteNavigation)
             </th>
             <th></th>
         </tr>
@@ -38,28 +40,32 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+
             <td>
-                @Html.DisplayFor(modelItem => item.Cantidad)
+                @Html.DisplayFor(modelItem => item.SubTotal)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PrecioTotal)
+                @Html.DisplayFor(modelItem => item.Iva)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FechaDeEmisión)
+                @Html.DisplayFor(modelItem => item.Total)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.MétodoDePago)
+                @Html.DisplayFor(modelItem => item.IdClienteNavigation.IdCliente)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Estado)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdVentaNavigation.IdVenta)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.IdFactura">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.IdFactura">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.IdFactura">Delete</a>
+            
+                    @* <a asp-action="Edit" asp-route-id="@item.IdFactura">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.IdFactura">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.IdFactura">Eliminar</a> *@
+                    <!-- Botón para generar factura -->
+                    @* <form asp-controller="Factura" asp-action="GenerarFacturaPDF" method="get">
+                        <input type="hidden" name="idFactura" value="1" /> <!-- Reemplaza 1 con el ID de prueba -->
+                        <button type="submit" class="btn btn-primary">
+                            Generar Factura PDF
+                        </button>
+                    </form> *@
+
             </td>
         </tr>
 }

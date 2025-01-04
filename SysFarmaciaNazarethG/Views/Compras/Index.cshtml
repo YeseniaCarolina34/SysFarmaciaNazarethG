@@ -1,0 +1,109 @@
+﻿@model IEnumerable<SysFarmaciaNazarethG.Models.Compras>
+
+@{
+    ViewData["Title"] = "Compras";
+}
+<head>
+    <link rel="stylesheet" href="~/css/crud.css" />
+</head>
+
+<h1>COMPRAS</h1>
+
+<p>
+    <a href="/Compras/Create" class="btn" style="background-color:#4CAF50;color: white;">Crear Nueva Compra</a>
+</p>
+<a asp-action="GenerarPDF" class="btn btn-success">Exportar a PDF</a>
+<br />
+<br />
+
+<!-- Formulario de búsqueda -->
+<div>
+    <input type="text"
+           id="searchInput"
+           class="form-control"
+           placeholder="Buscar en la tabla..."
+           onkeyup="filterTable()" />
+</div>
+<br />
+
+<table class="table" id="comprasTable">
+    <thead>
+        <tr>
+            <th onclick="sortTable(0)">Código &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(1)">Cantidad &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(2)">Nombre &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(3)">Laboratorio &#x25B2;&#x25BC;</th>
+            <th onclick="sortTable(4)">Proveedor &#x25B2;&#x25BC;</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Codigo</td>
+                <td>@item.Cantidad</td>
+                <td>@item.Nombre</td>
+                <td>@item.Laboratorio</td>
+                <td>@item.IdProveedorNavigation.Nombre</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    // Función para filtrar la tabla
+    function filterTable() {
+        const input = document.getElementById("searchInput");
+        const filter = input.value.toLowerCase();
+        const table = document.getElementById("comprasTable");
+        const rows = table.getElementsByTagName("tr");
+
+        for (let i = 1; i < rows.length; i++) {
+            let visible = false;
+            const cells = rows[i].getElementsByTagName("td");
+
+            for (let j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    const text = cells[j].textContent || cells[j].innerText;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        visible = true;
+                        break;
+                    }
+                }
+            }
+
+            rows[i].style.display = visible ? "" : "none";
+        }
+    }
+
+    // Función para ordenar la tabla
+    function sortTable(columnIndex) {
+        const table = document.getElementById("comprasTable");
+        const rows = Array.from(table.rows).slice(1); // Excluir encabezado
+        const isAscending = table.getAttribute("data-sort-order") !== "asc";
+        const direction = isAscending ? 1 : -1;
+
+        rows.sort((a, b) => {
+            const aText = a.cells[columnIndex].innerText.trim();
+            const bText = b.cells[columnIndex].innerText.trim();
+
+            // Comparar como números si corresponde, de lo contrario como texto
+            const aValue = isNaN(aText) ? aText.toLowerCase() : parseFloat(aText);
+            const bValue = isNaN(bText) ? bText.toLowerCase() : parseFloat(bText);
+
+            return aValue > bValue ? direction : aValue < bValue ? -direction : 0;
+        });
+
+        // Actualizar la tabla con las filas ordenadas
+        rows.forEach(row => table.tBodies[0].appendChild(row));
+
+        // Cambiar la dirección de ordenación
+        table.setAttribute("data-sort-order", isAscending ? "asc" : "desc");
+    }
+</script>

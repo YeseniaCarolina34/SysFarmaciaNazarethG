@@ -3,14 +3,33 @@
 @{
     ViewData["Title"] = "Index";
 }
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorMessage" class="alert alert-danger" role="alert">
+        <span style="color: red; font-size: 20px; font-weight: bold;">&times;</span>
+        @TempData["ErrorMessage"]
+    </div>
+
+    <script>
+        // Espera 5 segundos (5000 ms) y luego oculta el mensaje
+        setTimeout(function () {
+            var messageDiv = document.getElementById("errorMessage");
+            if (messageDiv) {
+                messageDiv.style.display = "none";
+            }
+        }, 5000);
+    </script>
+}
+<body style="background-color:#F5F5F5;">
+</body>
 <head>
     <link rel="stylesheet" href="~/css/crud.css" />
 </head>
 
-<h1>Roles de sistema</h1>
+<h1>ROL</h1>
 
 <p>
-    <a asp-action="Create">Crear Rol</a>
+    <a href="/Rol/Create" class="btn" style="background-color: #4CAF50;color: white;">Crear rol</a>
 </p>
 <table class="table">
     <thead>
@@ -28,9 +47,9 @@
                 @Html.DisplayFor(modelItem => item.Nombre)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalles</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
             </td>
         </tr>
 

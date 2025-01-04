@@ -24,6 +24,8 @@ public partial class Proveedor
     [StringLength(20)]
     public string? Teléfono { get; set; }
 
+    [Required(ErrorMessage = "El correo es obligatorio.")]
+    [EmailAddress(ErrorMessage = "Debe ingresar un correo válido.")]
     [StringLength(100)]
     public string? CorreoElectrónico { get; set; }
 
@@ -51,4 +53,7 @@ public partial class Proveedor
 
     [InverseProperty("IdProveedorNavigation")]
     public virtual ICollection<Producto> Producto { get; set; } = new List<Producto>();
+    // Agrega esta propiedad para la relación con Compras
+    [InverseProperty("IdProveedorNavigation")]
+    public virtual ICollection<Compras> Compras { get; set; } = new List<Compras>();
 }

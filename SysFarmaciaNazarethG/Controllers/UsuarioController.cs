@@ -12,10 +12,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SysFarmaciaNazarethG.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
+   
 
     public class UsuarioController : Controller
     {
@@ -35,52 +36,44 @@ namespace SysFarmaciaNazarethG.Controllers
             return View();
         }
 
-
         // POST: Usuario/Login
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(string login, string password)
+        public async Task<IActionResult> Email(string Email, string password)
         {
             if (ModelState.IsValid)
             {
                 // Encriptar la contraseña ingresada con MD5
                 string contraseñaEncriptada = EncriptarMD5(password);
 
-                // Verificar si el usuario existe (compara el Login y Password)
+                // Verificar si el usuario existe (compara el Email y Password)
                 var usuario = _context.Usuario
-                                      .Include(u => u.IdRolNavigation) // Incluimos el rol del usuario en la consulta
-                                      .FirstOrDefault(u => u.Login == login && u.Password == contraseñaEncriptada);
+                                      .FirstOrDefault(u => u.Email == Email && u.Password == contraseñaEncriptada);
 
                 if (usuario != null)
                 {
-                    // Autenticación exitosa, crear claims de autenticación
+                    // Crear lista de claims para el usuario autenticado
                     var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, usuario.Nombre),
-                new Claim(ClaimTypes.Email, usuario.Login),
-                // Agregar el rol del usuario en los claims
-                new Claim(ClaimTypes.Role, usuario.IdRolNavigation.Nombre) // Asignamos el rol
+                new Claim(ClaimTypes.Name, usuario.Nombre), // Nombre del usuario
+                new Claim("UserId", usuario.Id.ToString()) // ID del usuario como un claim personalizado
             };
 
+                    // Crear identidad con los claims
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    // Configurar las propiedades de autenticación
                     var authProperties = new AuthenticationProperties
                     {
-                        IsPersistent = true, // Para mantener la sesión iniciada si se cierra el navegador
+                        IsPersistent = true // Mantener la sesión incluso al cerrar el navegador
                     };
 
-                    // Iniciar sesión (autenticación)
+                    // Iniciar sesión del usuario (autenticación con cookies)
                     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme,
                         new ClaimsPrincipal(claimsIdentity), authProperties);
 
-                    // Redirigir según el rol (opcional)
-                    if (usuario.IdRolNavigation.Nombre == "Administrador")
-                    {
-                        return RedirectToAction("Index", "Home"); // Redirigir al dashboard de admin
-                    }
-                    else if (usuario.IdRolNavigation.Nombre == "Cliente")
-                    {
-                        return RedirectToAction("Index", "Home"); // Redirigir a la página principal para clientes
-                    }
+                    // Redirigir a la página principal (ya no basado en rol)
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -116,14 +109,14 @@ namespace SysFarmaciaNazarethG.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "Usuario");
+            return RedirectToAction("Email", "Usuario");
         }
 
         // Cerrar sesión
         public async Task<IActionResult> Logoutt()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login"); // Redirigir al usuario a la vista de inicio de sesión
+            return RedirectToAction("Inicio"); // Redirigir al usuario a la vista de inicio de sesión
         }
 
         [AllowAnonymous]
@@ -145,7 +138,6 @@ namespace SysFarmaciaNazarethG.Controllers
                 usuario.IdRol = 2; // Asegúrate de que 2 sea el Id correspondiente a "Cliente"
                 usuario.Estatus = "Activo"; // Asignamos un estatus activo
                 usuario.FechaRegistro = DateTime.Now; // Registrar la fecha de creación
-
                 // Encriptar contraseña con MD5
                 usuario.Password = EncriptarMD5(usuario.Password);
 
@@ -193,7 +185,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // GET: Usuario/Create
         public IActionResult Create()
         {
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id");
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre");
             return View();
         }
 
@@ -202,7 +194,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Login,Password,Estatus,FechaRegistro,IdRol")] Usuario usuario)
+        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,Password,Estatus,FechaRegistro,IdRol")] Usuario usuario)
         {
             if (ModelState.IsValid)
             {
@@ -228,7 +220,7 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id", usuario.IdRol);
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre", usuario.IdRol);
             return View(usuario);
         }
 
@@ -237,7 +229,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Login,Password,Estatus,FechaRegistro,IdRol")] Usuario usuario)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Nombre,Apellido,Email,Password,Estatus,FechaRegistro,IdRol")] Usuario usuario)
         {
             if (id != usuario.Id)
             {
@@ -264,7 +256,7 @@ namespace SysFarmaciaNazarethG.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Id", usuario.IdRol);
+            ViewData["IdRol"] = new SelectList(_context.Rol, "Id", "Nombre", usuario.IdRol);
             return View(usuario);
         }
 
@@ -306,6 +298,94 @@ namespace SysFarmaciaNazarethG.Controllers
         {
             return _context.Usuario.Any(e => e.Id == id);
         }
+        [AllowAnonymous]
+        public IActionResult UnauthorizedAlert()
+        {
+            return View();
+        }
+
+
+        [HttpGet]
+        [Authorize] // Asegura que solo usuarios autenticados accedan a esta acción
+        public IActionResult CambiarContraseña()
+        {
+            // Obtener el ID del usuario desde los claims
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == "UserId");
+            if (userIdClaim == null)
+            {
+                // Si el claim no está presente, redirige al login o muestra un mensaje de error
+                return Unauthorized("No se pudo determinar el usuario. Por favor, inicia sesión nuevamente.");
+            }
+
+            int userId = int.Parse(userIdClaim.Value); // Convertir el ID a entero
+
+            // Buscar el usuario en la base de datos
+            var usuario = _context.Usuario.FirstOrDefault(u => u.Id == userId);
+            if (usuario == null)
+            {
+                return NotFound("Usuario no encontrado.");
+            }
+
+            // Pasar el modelo con el ID a la vista
+            var modelo = new SysFarmaciaNazarethG.Models.Usuario
+            {
+                Id = usuario.Id
+            };
+           
+
+            return View(modelo); // Devuelve la vista con el modelo que contiene el ID
+        }
+
+        [HttpPost]
+        [Authorize] // Asegura que solo usuarios autenticados accedan a esta acción
+        public IActionResult CambiarContraseña(int Id, string nuevaContraseña)
+        {
+            // Validar que se proporcionen datos válidos
+            if (string.IsNullOrWhiteSpace(nuevaContraseña))
+            {
+                TempData["ErrorMessage"] = "La nueva contraseña no puede estar vacía.";
+                return RedirectToAction("CambiarContraseña");
+            }
+
+            // Buscar al usuario en la base de datos
+            var usuario = _context.Usuario.FirstOrDefault(u => u.Id == Id);
+            if (usuario == null)
+            {
+                TempData["ErrorMessage"] = "Usuario no encontrado.";
+                return RedirectToAction("CambiarContraseña");
+            }
+
+            // Encriptar la nueva contraseña
+            usuario.Password = Utilidades.EncriptarMD5(nuevaContraseña);
+
+            // Guardar los cambios en la base de datos
+            _context.SaveChanges();
+
+            // Redirigir con un mensaje de éxito
+            TempData["SuccessMessage"] = "Su Contraseña Fue actualizada correctamente!";
+            return RedirectToAction("CambiarContraseña");
+        }
+
+        public static class Utilidades
+        {
+            public static string EncriptarMD5(string textoPlano)
+            {
+                using (MD5 md5 = MD5.Create())
+                {
+                    byte[] inputBytes = Encoding.UTF8.GetBytes(textoPlano);
+                    byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                    // Convertir el hash a una cadena en formato hexadecimal
+                    StringBuilder sb = new StringBuilder();
+                    foreach (byte b in hashBytes)
+                    {
+                        sb.Append(b.ToString("x2"));
+                    }
+                    return sb.ToString();
+                }
+            }
+        }
+
 
     }
 }

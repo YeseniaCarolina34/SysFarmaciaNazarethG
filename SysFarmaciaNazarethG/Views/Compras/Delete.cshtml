@@ -1,0 +1,68 @@
+﻿@model SysFarmaciaNazarethG.Models.Compras
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1 class="text-center" style="color: #2E7D32;">Eliminar Compra</h1>
+<h3 class="text-center" style="color: #D32F2F;">¿Estás seguro de que quieres eliminar esta compra?</h3>
+
+<div class="container" style="border: 1px solid #FFCDD2; background-color: #FFEBEE; border-radius: 10px; padding: 20px;">
+    <h4 class="text-center" style="color: #2E7D32;">Información de la Compra</h4>
+    <hr />
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Código</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Codigo)</dd>
+
+                <dt class="col-sm-4">Descripción</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Descripcion)</dd>
+
+                <dt class="col-sm-4">Cantidad</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Cantidad)</dd>
+
+                <dt class="col-sm-4">Bonificación</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Bonificacion)</dd>
+
+
+                <dt class="col-sm-4">Precio Unitario</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.PrecioUnitario)</dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-md-6">
+            <dl class="row">
+                <dt class="col-sm-4">Laboratorio</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Laboratorio)</dd>
+
+                <dt class="col-sm-4">Descuento</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Descuento)</dd>
+
+                <dt class="col-sm-4">Ventas No Sujetas</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VentasNoSujetas)</dd>
+
+                <dt class="col-sm-4">Ventas Extensas</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VentasExtensas)</dd>
+
+                <dt class="col-sm-4">Ventas Afectas</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.VentasAfectas)</dd>
+
+                <dt class="col-sm-4">Proveedor</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.IdProveedor)</dd>
+
+                <dt class="col-sm-4">Nombre</dt>
+                <dd class="col-sm-8">@Html.DisplayFor(model => model.Nombre)</dd>
+
+            </dl>
+        </div>
+    </div>
+
+    <form asp-action="Delete" class="text-center mt-4">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar" class="btn btn-danger" style="width: 150px;" /> |
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
+    </form>
+</div>

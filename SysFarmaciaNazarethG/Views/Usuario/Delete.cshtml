@@ -1,63 +1,75 @@
 ﻿@model SysFarmaciaNazarethG.Models.Usuario
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Eliminar";
 }
 
-<h1>Delete</h1>
+<h1 class="text-center" style="color: #B71C1C;">Eliminar Usuario</h1>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Usuario</h4>
+<div class="container" style="border: 1px solid #EF9A9A; background-color: #FFEBEE; border-radius: 10px; padding: 20px;">
+    <h3 class="text-center" style="color: #C62828;">¿Estás seguro de que deseas eliminar este usuario?</h3>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Apellido)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Apellido)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Login)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Login)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Password)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Password)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Estatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Estatus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FechaRegistro)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FechaRegistro)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IdRolNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IdRolNavigation.Id)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
+    <h4 style="color: #D32F2F;">Detalles del Usuario</h4>
+    <div class="row">
+        <!-- Primera columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Nombre)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Nombre)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Apellido)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Apellido)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Password)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Password)
+                </dd>
+            </dl>
+        </div>
+
+        <!-- Segunda columna -->
+        <div class="col-sm-6">
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Estatus)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Estatus)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.FechaRegistro)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FechaRegistro)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.IdRolNavigation)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.IdRolNavigation.Id)
+                </dd>
+            </dl>
+        </div>
+    </div>
+
+    <!-- Formulario de confirmación -->
+    <form asp-action="Delete" class="text-center mt-4">
         <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Eliminar" class="btn btn-danger" style="width: 150px;" />
+        <a asp-action="Index" class="btn btn-secondary" style="width: 150px;">Regresar</a>
     </form>
 </div>

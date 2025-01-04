@@ -8,7 +8,7 @@ using iTextSharp.text;
 
 namespace SysFarmaciaNazarethG.Controllers
 {
-    [Authorize(Roles = "Administrador")] // Solo los administradores pueden acceder a estas acciones
+    
     public class InventarioController : Controller
     {
         private readonly BDContext _context;
@@ -47,7 +47,7 @@ namespace SysFarmaciaNazarethG.Controllers
         // GET: Inventario/Create
         public IActionResult Create()
         {
-            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Id");
+            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Nombre");
             return View();
         }
 
@@ -81,7 +81,7 @@ namespace SysFarmaciaNazarethG.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Id", inventario.IdProducto);
+            ViewData["IdProducto"] = new SelectList(_context.Producto, "Id", "Nombre", inventario.IdProducto);
             return View(inventario);
         }
 
@@ -154,47 +154,123 @@ namespace SysFarmaciaNazarethG.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-
-       public async Task<IActionResult> ExportarPDF()
-       {
-        var inventarios = await _context.Inventario.Include(i => i.IdProductoNavigation).ToListAsync();
-
-        using (MemoryStream ms = new MemoryStream())
-        {
-            Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 10);
-            PdfWriter.GetInstance(pdfDoc, ms);
-            pdfDoc.Open();
-
-            pdfDoc.Add(new Paragraph("Lista de Inventario"));
-            pdfDoc.Add(new Paragraph(" ")); // Espacio entre el título y la tabla
-
-            PdfPTable table = new PdfPTable(5); // Ajusta el número de columnas según los datos que deseas mostrar
-            table.AddCell("ID Inventario");
-            table.AddCell("ID Producto");
-            table.AddCell("Cantidad");
-            table.AddCell("Ubicación");
-            table.AddCell("Fecha de Ingreso");
-
-            foreach (var inventario in inventarios)
-            {
-                table.AddCell(inventario.IdInventario.ToString());
-                table.AddCell(inventario.IdProducto.ToString());
-                table.AddCell(inventario.Cantidad.ToString());
-                table.AddCell(inventario.Ubicación);
-                table.AddCell(inventario.FechaDeIngreso?.ToString("MM/dd/yyyy") ?? "");
-
-            }
-
-                pdfDoc.Add(table);
-            pdfDoc.Close();
-
-            return File(ms.ToArray(), "application/pdf", "Inventario.pdf");
-        }
-    }
-    private bool InventarioExists(int id)
+        private bool InventarioExists(int id)
         {
             return _context.Inventario.Any(e => e.IdInventario == id);
         }
 
+        public async Task<IActionResult> ExportarPDF()
+        {
+            var inventarios = await _context.Inventario.Include(i => i.IdProductoNavigation).ToListAsync();
+
+            using (MemoryStream ms = new MemoryStream())
+            {
+                Document pdfDoc = new Document(PageSize.A4, 10, 10, 10, 10);
+                PdfWriter.GetInstance(pdfDoc, ms);
+                pdfDoc.Open();
+
+                // Título del documento
+                var titleFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 16);
+                var headerFont = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 12, BaseColor.WHITE);
+                var normalFont = FontFactory.GetFont(FontFactory.HELVETICA, 10);
+                pdfDoc.Add(new Paragraph("Lista de Inventario", titleFont));
+                pdfDoc.Add(new Paragraph(" ")); // Espacio en blanco
+
+                // Crear tabla con 5 columnas
+                PdfPTable table = new PdfPTable(5);
+                table.WidthPercentage = 100; // Ancho de la tabla
+                table.SetWidths(new float[] { 1, 3, 1, 2, 2 }); // Proporciones de ancho de columnas
+
+                // Encabezados con fondo celeste
+                BaseColor headerBackgroundColor = new BaseColor(173, 216, 230); // Color celeste
+
+                PdfPCell headerCell = new PdfPCell(new Phrase("ID Inventario", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Nombre del Producto", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Cantidad", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Ubicación", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                headerCell = new PdfPCell(new Phrase("Fecha de Ingreso", headerFont))
+                {
+                    BackgroundColor = headerBackgroundColor,
+                    HorizontalAlignment = Element.ALIGN_CENTER,
+                    Padding = 5
+                };
+                table.AddCell(headerCell);
+
+                // Rellenar filas con fondo blanco
+                foreach (var inventario in inventarios)
+                {
+                    PdfPCell cell = new PdfPCell(new Phrase(inventario.IdInventario.ToString(), normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(inventario.IdProductoNavigation?.Nombre ?? "", normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(inventario.Cantidad.ToString(), normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(inventario.Ubicación, normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+
+                    cell = new PdfPCell(new Phrase(inventario.FechaDeIngreso?.ToString("MM/dd/yyyy") ?? "", normalFont))
+                    {
+                        BackgroundColor = BaseColor.WHITE,
+                        Padding = 5
+                    };
+                    table.AddCell(cell);
+                }
+
+                pdfDoc.Add(table);
+                pdfDoc.Close();
+
+                return File(ms.ToArray(), "application/pdf", "Inventario.pdf");
+            }
+        }
     }
+
+
+
 }
